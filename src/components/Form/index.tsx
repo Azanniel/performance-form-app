@@ -8,9 +8,32 @@ const VALID_EMAIL_EXPRESSION = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\
 
 export function Form() {
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   function handleUserRegister() {
-    alert('Criou');
+    if(name.trim() === "") {
+      return Alert.alert("Informe o nome.");
+    }
+
+    if(email.trim() === "") {
+      return Alert.alert("Informe o e-mail.");
+    }
+
+    if(!(VALID_EMAIL_EXPRESSION).test(email.trim().toLocaleLowerCase())) {
+      return Alert.alert("E-mail inválido.");
+    }
+
+    if(password.trim().length < 6) {
+      return Alert.alert("A senha deve ter ao menos 6 caracteres.");
+    }
+
+    if(password.trim() !== passwordConfirm.trim()) {
+      return Alert.alert("A senha de confirmação não confere.");
+    }
+
+    return Alert.alert("Cadastrado com sucesso!");
   }
 
   return (
@@ -18,22 +41,30 @@ export function Form() {
       <Input
         icon="user"
         placeholder="Nome"
+        onChangeText={setName}
+        value={name}
       />
       <Input
         icon="mail"
         placeholder="E-mail"
         keyboardType="email-address"
         autoCapitalize='none'
+        onChangeText={setEmail}
+        value={email}
       />
       <Input
         icon="lock"
         placeholder="Senha"
         secureTextEntry
+        onChangeText={setPassword}
+        value={password}
       />
       <Input
         icon="lock"
         placeholder="Confirme a senha"
         secureTextEntry
+        onChangeText={setPasswordConfirm}
+        value={passwordConfirm}
       />
 
       <Button
